@@ -14,18 +14,6 @@ export const useToDoFunctions = () => {
     const handleViews = (id) => {
       setViews(id);
     }
-
-    const handleOutsidePopupClick = (event) => {
-      if (event.target.id === 'popup' && popup) {
-        setPopup(false);
-      }
-    };
-
-    const handleOutsideFeatureClick = (event) => {
-      if (event.target.id === 'feature' && features) {
-        setFeatures(false);
-      }
-    }
   
     useEffect(() => {
       // Hiding the notification after 5 seconds when notification state changes
@@ -42,7 +30,5 @@ export const useToDoFunctions = () => {
       shareUrl,
       shareMessage,
       handleViews,
-      handleOutsidePopupClick,
-      handleOutsideFeatureClick,
     };
 };

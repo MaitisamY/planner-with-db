@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import { BsXLg, BsArrowLeft, BsDash, BsPlus } from 'react-icons/bs'
 import { usePopupFunctions } from '@/app/functions/usePopupFunctions'

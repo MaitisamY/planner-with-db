@@ -1,4 +1,5 @@
-import { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Header from '@/app/Header'
 import Welcome from '@/app/Welcome'
@@ -17,6 +18,17 @@ export default function Main() {
     const pathname = usePathname();
     const [popup, setPopup] = useState(false);
     const [features, setFeatures] = useState(false);
+    const [accountDropdown, setAccountDropdown] = useState(false);
+    const dropdownRef = useRef(null);
+    const [isLogin, setIsLogin] = useState(true);
+
+    const handleIsLogin = () => {
+        setIsLogin(prevIsLogin => !prevIsLogin);
+    }
+
+    const handleAccountDropdown = () => {
+        setAccountDropdown(prevAccountDropdown => !prevAccountDropdown);
+    }
 
     const handlePopup = () => {
         setPopup(prevPopup => !prevPopup);
@@ -40,17 +52,38 @@ export default function Main() {
       }
     }
 
+    const handleOutsideDropdownClick = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && accountDropdown) {
+            setAccountDropdown(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideDropdownClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideDropdownClick);
+        };
+    }, [accountDropdown]);
+
     return (
         <>
             
             {popup && (
-                <Popup closer={handlePopup} close={handleOutsidePopupClick} />
+                <Popup 
+                    closer={handlePopup} 
+                    close={handleOutsidePopupClick} 
+                    closeDropdown={handleOutsideDropdownClick} 
+                />
             )}
             {features && (
-                <Feature closer={handleFeature} close={handleOutsideFeatureClick} />
+                <Feature 
+                    closer={handleFeature} 
+                    close={handleOutsideFeatureClick} 
+                    closeDropdown={handleOutsideDropdownClick} 
+                />
             )}
             <main>
-                <div className="welcome-holder">
+                <div className="welcome-holder" onClick={handleOutsideDropdownClick}>
                     <div className="welcome-holder-header">
                         <Header />
                     </div>
@@ -58,10 +91,16 @@ export default function Main() {
                         <Welcome opener={handlePopup} />
                     </div>
                 </div>
-                <div className="task-holder">
-                    <div className="task-holder-header">
-                        <Navbar handleFeature={handleFeature} />
-                    </div>
+                <div className="task-holder" onClick={handleOutsideDropdownClick}>
+                    <Navbar 
+                        handleFeature={handleFeature} 
+                        handler={handleAccountDropdown} 
+                        dropdownStatus={accountDropdown} 
+                        close={handleOutsideDropdownClick}
+                        dropdownRef={dropdownRef}
+                        isLogin={isLogin}
+                        handleIsLogin={handleIsLogin}
+                    />
                     {
                         pathname === '/' ? <HomeContent /> 
                         : 

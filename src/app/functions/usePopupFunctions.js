@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { formatDateToInput } from '@/app/functions/DateUtil'
-import { createTask } from '@/app/functions/data' 
+import { createTask } from '@/app/api/data' 
 
 export const usePopupFunctions = () => {
 
@@ -10,6 +10,7 @@ export const usePopupFunctions = () => {
     }
 
     const [inputError, setInputError] = useState(null);
+    const [noteError, setNoteError] = useState(null);
     const [dateError, setDateError] = useState(null);
     const [selectedDate, setSelectedDate] = useState(formatDateToInput(new Date().toDateString()));
     const todayDateString = new Date().toDateString();
@@ -24,9 +25,25 @@ export const usePopupFunctions = () => {
         status: '', // Status information
         checklist: [], // Array to hold checklist items
     });
+    const [notes, setNotes] = useState({
+        id: generateTaskId(),
+        note: '',
+        date: '',
+        updatedDate: '',
+        dueDate: '',
+        status: '',
+    });
 
     const handleTaskOrChecklistChange = (name) => {
         setTextOrChecklist(name);
+    }
+
+    const handleNotesChange = (e) => {
+        const { name, value } = e.target
+        setNotes({
+            ...notes,
+            [name]: value
+        });
     }
 
     const handleChange = (itemId, value, fieldName) => {
@@ -59,7 +76,7 @@ export const usePopupFunctions = () => {
     const handleFormSubmit = async (e, type) => {
         e.preventDefault();
         console.log('Form submitted:', type);
-
+        
         // Performing validations for text tasks
         if (type === 'text') {
             if (toDo.task === "") {
@@ -169,13 +186,17 @@ export const usePopupFunctions = () => {
 
     return {
         toDo,
+        notes,
         inputError,
         setInputError,
+        noteError,
+        setNoteError,
         dateError,
         selectedDate,
         todayDateString,
         textOrChecklist,
         setTextOrChecklist,
+        handleNotesChange,
         handleChange,
         handleFormSubmit,
         handleTaskOrChecklistChange,

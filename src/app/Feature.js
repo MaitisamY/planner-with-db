@@ -1,11 +1,12 @@
 import { useToDoFunctions } from '@/app/functions/useToDoFunctions'
+import { BsXLg } from 'react-icons/bs'
 
 export default function Feature({ closer, close }) {
     
     return (
         <div id="feature" className="popup" onClick={(e) => close(e)}>
-            <div id="add-task" className="add-task">
-                <a onClick={closer} className="close">&times;</a>
+            <div id="features" className="features">
+                <a onClick={closer} className="close"><BsXLg /></a>
                 <h2>
                     Features
                 </h2>

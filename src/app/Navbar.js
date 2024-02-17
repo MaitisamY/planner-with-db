@@ -1,10 +1,13 @@
+import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { MdGridView, MdFormatListBulleted, MdBookmarkRemove, MdEditNote, MdSupervisedUserCircle } from 'react-icons/md'
-import { BsFillHouseDoorFill, BsExclamationDiamond } from 'react-icons/bs'
+import { MdGridView, MdFormatListBulleted, MdEditNote, MdSupervisedUserCircle, MdNewReleases } from 'react-icons/md'
+import { BsFillHouseDoorFill, BsBookmarkX } from 'react-icons/bs'
 import { useToDoFunctions } from '@/app/functions/useToDoFunctions'
+import Login from './Login'
+import Signup from './Signup'
 
-export default function Navbar({ handleFeature }) {
+export default function Navbar({ handleFeature, dropdownStatus, close, handler, dropdownRef, isLogin, handleIsLogin }) {
 
     const pathname = usePathname();
 
@@ -15,43 +18,68 @@ export default function Navbar({ handleFeature }) {
 
     return (
         <>
-            <div className="task-holder-header-nav">
-                <Link 
-                    title="Home"
-                    href={pathname === '/' ? '#' : "/"} 
-                    className={ `link ${ pathname === '/' ? 'active' : '' }` }
-                >
-                    <BsFillHouseDoorFill /> &nbsp; <i>Home</i>
-                </Link>
-                <Link 
-                    title="Trash"
-                    className={ `link ${ pathname === '/notes' ? 'active' : '' }` }
-                    href="/notes"
-                >
-                    <MdEditNote /> &nbsp; <i>Notes</i>
-                </Link>
-                <Link 
-                    title="Trash"
-                    className={ `link ${ pathname === '/trash' ? 'active' : '' }` }
-                    href="/trash"
-                >
-                    <MdBookmarkRemove /> &nbsp; <i>Trash</i>
-                </Link>
-                <Link 
-                    title="Features"
-                    href="#"
-                    onClick={handleFeature} 
-                    className="link"
-                >
-                    <BsExclamationDiamond /> &nbsp; <i>Features</i>
-                </Link>
-            </div>
-            <div className="task-holder-header-view">
-                <button 
-                    title="Account"
-                >
-                    <MdSupervisedUserCircle />
-                </button>
+            <div className="task-holder-header" onClick={close}>
+                <div className="task-holder-header-nav">
+                    <Link 
+                        title="Home"
+                        href={pathname === '/' ? '#' : "/"} 
+                        className={ `link ${ pathname === '/' ? 'active' : '' }` }
+                    >
+                        <BsFillHouseDoorFill /> &nbsp; <i>Home</i>
+                    </Link>
+                    <Link 
+                        title="Trash"
+                        className={ `link ${ pathname === '/notes' ? 'active' : '' }` }
+                        href="/notes"
+                    >
+                        <MdEditNote /> &nbsp; <i>Notes</i>
+                    </Link>
+                    <Link 
+                        title="Trash"
+                        className={ `link ${ pathname === '/trash' ? 'active' : '' }` }
+                        href="/trash"
+                    >
+                        <BsBookmarkX /> &nbsp; <i>Expired</i>
+                    </Link>
+                    <Link 
+                        title="Features"
+                        href="#"
+                        onClick={handleFeature} 
+                        className="link"
+                    >
+                        <MdNewReleases /> &nbsp; <i>Features</i>
+                    </Link>
+                </div>
+                <div className="task-holder-header-account">
+                    <button 
+                        title="Account"
+                        onClick={handler}
+                    >
+                        <MdSupervisedUserCircle /> &nbsp; <i>Account</i>
+                    </button>
+                    {
+                        dropdownStatus &&
+                        <div className="account-dropdown" ref={dropdownRef}>
+                            <div className="selection">
+                                <button
+                                    className={`selector ${isLogin ? 'active' : ''}`}
+                                    onClick={handleIsLogin}
+                                >
+                                    Login
+                                </button>
+                                <button
+                                    className={`selector ${!isLogin ? 'active' : ''}`}
+                                    onClick={handleIsLogin}
+                                >
+                                    Sign Up
+                                </button>
+                            </div>
+                            {
+                                isLogin ? <Login /> : <Signup />
+                            }
+                        </div>
+                    }
+                </div>
             </div>
             <div className="task-holder-view-switchers">
                 <button 
