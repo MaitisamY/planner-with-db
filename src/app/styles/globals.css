@@ -527,7 +527,7 @@ footer span {
   min-width: 250px;
   width: auto;
   height: auto;
-  background-color: #edeef0;
+  background-color: #f0f1f3;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   padding: 10px;
@@ -547,7 +547,7 @@ footer span {
   transform: translateY(-50%) rotate(45deg); /* Adjusted rotation */
   width: 20px; /* Adjusted width to match the arrow size */
   height: 20px; /* Adjusted height to match the arrow size */
-  background-color: #edeef0; /* Matched background color to .account-dropdown */
+  background-color: #f0f1f3; /* Matched background color to .account-dropdown */
   border-left: 1px solid rgba(0, 0, 0, 0.1); /* Added border for the arrow */
   border-top: 1px solid rgba(0, 0, 0, 0.1); /* Added border for the arrow */
   z-index: 100; /* Ensure the arrow is above .account-dropdown */
@@ -565,7 +565,7 @@ footer span {
   gap: 10px;
   border-radius: 10px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-  background-color: #EDEEF0;
+  background-color: rgba(0, 0, 0, 0.01);
 }
 
 .account-dropdown .selection .selector {
@@ -612,6 +612,16 @@ footer span {
   margin-top: 15px;
 }
 
+.account-dropdown form h4 {
+  font-size: 15px;
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  color: rgba(196, 17, 17, 0.89);
+}
+
 .account-dropdown form label {
   font-size: 15px;
   font-family: "Manrope", sans-serif;
@@ -641,6 +651,12 @@ footer span {
 
 .account-dropdown form input::placeholder {
   color: #303030;
+}
+
+.account-dropdown form input:focus,
+.account-dropdown form input:active {
+  outline: 1px solid #303030;
+  box-shadow: none;
 }
 
 .account-dropdown form .btn {
@@ -843,16 +859,15 @@ footer span {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding: 0;
-  margin: 0 0 15px 0;
-  gap: 0;
-  justify-self: center;
-  align-self: center;
+  padding: 5px 10px;
+  margin: 15px 0 15px 0;
+  gap: 10px;
   border-radius: 10px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  background-color: #EDEEF0;
 }
 
-.welcome .add-task .selection button {
+.welcome .add-task .selection .selector {
   background-color: transparent;
   border: none;
   outline: none;
@@ -865,26 +880,21 @@ footer span {
   font-style: normal;
   font-variation-settings: "wdth" 100;
   color: #474747;
-  padding: 10px 0 10px 0;
+  padding: 5px 0 5px 0;
   min-width: 100px;
+  box-shadow: 0 0 0 0;
+  border-radius: 10px;
 }
 
-.welcome .add-task .selection button:hover {
+.welcome .add-task .selector:hover {
   color: #303030;
 }
-.welcome .add-task .selection button:focus,
-.welcome .add-task .selection button:active, 
-.welcome .add-task .selection button.active {
+
+.welcome .add-task .selector:focus,
+.welcome .add-task .selector:active, 
+.welcome .add-task .selector.active {
   color: #303030;
   background-color: #cccccc8e;
-}
-
-.welcome .add-task .selection button:first-child {
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.welcome .add-task .selection button:last-child {
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .welcome .add-task h2 {
@@ -976,7 +986,7 @@ footer span {
 
 .welcome .add-task input[type="text"] {
   box-sizing: border-box;
-  padding: 10px 15px;
+  padding: 5px 15px;
   font-size: 18px;
   font-family: "Manrope", sans-serif;
   font-optical-sizing: auto;
@@ -997,9 +1007,15 @@ footer span {
   color: #303030;
 }
 
+.welcome .add-task input[type="text"]:focus,
+.welcome .add-task input[type="text"]:active {
+  outline: 1px solid #303030;
+  box-shadow: none;
+}
+
 .welcome .add-task input[type="date"] {
   box-sizing: border-box;
-  padding: 10px 15px;
+  padding: 5px 15px;
   margin: 0 0 0 10px;
   font-size: 18px;
   font-family: "Manrope", sans-serif;
@@ -1017,10 +1033,16 @@ footer span {
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
+.welcome .add-task input[type="date"]:focus,
+.welcome .add-task input[type="date"]:active {
+  outline: 1px solid #303030;
+  box-shadow: none;
+}
+
 .welcome .add-task textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 15px;
+  padding: 5px 15px;
   margin: 15px 0 0 0;
   font-size: 20px;
   font-family: "Manrope", sans-serif;
@@ -1040,6 +1062,12 @@ footer span {
 
 .welcome .add-task textarea::placeholder {
   color: #303030;
+}
+
+.welcome .add-task textarea:focus,
+.welcome .add-task textarea:active {
+  outline: 1px solid #303030;
+  box-shadow: none;
 }
 
 .welcome .add-task .notes {

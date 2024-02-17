@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
-import { BsXLg, BsArrowLeft, BsDash, BsPlus } from 'react-icons/bs'
+import { BsXLg, BsArrowLeft, BsDash, BsPlus, BsApp } from 'react-icons/bs'
 import { usePopupFunctions } from '@/app/functions/usePopupFunctions'
 import {
     FacebookShareButton,
@@ -59,23 +59,21 @@ export default function Welcome({ opener }) {
                 <h3>Start creating tasks by selecting one of the below</h3>
                 <div className="selection">
                     <button 
-                        className={textOrChecklist === 'checklist' ? 'active' : ''}
-                        style={{ borderRadius: '10px 0 0 10px' }}
+                        className={`selector ${textOrChecklist === 'checklist' ? 'active' : ''}`}
                         type="button" 
                         onClick={() => handleTaskOrChecklistChange('checklist')}
                     >
                         Checklist
                     </button>
                     <button 
-                        className={textOrChecklist === 'text' ? 'active' : ''}
+                        className={`selector ${textOrChecklist === 'text' ? 'active' : ''}`}
                         type="button" 
                         onClick={() => handleTaskOrChecklistChange('text')}
                     >
                         Text Task
                     </button>
                     <button 
-                        className={textOrChecklist === 'notes' ? 'active' : ''}
-                        style={{ borderRadius: '0 10px 10px 0' }}
+                        className={`selector ${textOrChecklist === 'notes' ? 'active' : ''}`}
                         type="button" 
                         onClick={() => handleTaskOrChecklistChange('notes')}
                     >
@@ -130,7 +128,7 @@ export default function Welcome({ opener }) {
                                     justifyContent: 'center', 
                                     flexDirection: 'column', 
                                     gap: '20px',
-                                    listStyleType: 'initial'
+                                    listStyleType: 'none'
                                 }}>
                                     {toDo.type === 'checklist' && toDo.checklist.length > 0 ? ( // Check if checklist is not empty
                                         toDo.checklist.map((item, index) => (

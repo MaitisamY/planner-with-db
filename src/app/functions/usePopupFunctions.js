@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { formatDateToInput } from '@/app/functions/DateUtil'
-import { createTask } from '@/app/api/data' 
+import { formatDateToInput } from '@/app/functions/DateUtil' 
 
 export const usePopupFunctions = () => {
 

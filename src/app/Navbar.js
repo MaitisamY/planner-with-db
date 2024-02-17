@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { MdGridView, MdFormatListBulleted, MdEditNote, MdSupervisedUserCircle, MdNewReleases } from 'react-icons/md'
 import { BsFillHouseDoorFill, BsBookmarkX } from 'react-icons/bs'
 import { useToDoFunctions } from '@/app/functions/useToDoFunctions'
-import Login from './Login'
-import Signup from './Signup'
+import Login from '@/app/Login'
+import Signup from '@/app/Signup'
 
 export default function Navbar({ handleFeature, dropdownStatus, close, handler, dropdownRef, isLogin, handleIsLogin }) {
 
