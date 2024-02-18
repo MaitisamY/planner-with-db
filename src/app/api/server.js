@@ -16,14 +16,14 @@ app.use(bodyParser.json());
 // Custom middleware to check request parameters based on route
 // Middleware to check request parameters based on route
 const requests = (req, res, next) => {
-    if (req.path === '/signup') {
+    if (req.path === '/api/signup') {
         // Validate and sanitize input for signup route
         [
             body('username').notEmpty().trim().escape(),
             body('email').isEmail().normalizeEmail(),
             body('password').isLength({ min: 6 }).trim(),
         ];
-    } else if (req.path === '/login') {
+    } else if (req.path === '/api/login') {
         // Validate and sanitize input for login route
         [
             body('email').isEmail().normalizeEmail(),
@@ -42,7 +42,7 @@ const requests = (req, res, next) => {
 }
 
 // Signup route
-app.post('/signup', requests, async (req, res) => {
+app.post('/api/signup', requests, async (req, res) => {
     const { username, email, password } = req.body;
     try {
         // Check if user exists
@@ -102,7 +102,7 @@ app.post('/signup', requests, async (req, res) => {
 })
 
 // Login route
-app.post('/login', requests, async (req, res) => {
+app.post('/api/login', requests, async (req, res) => {
     const { email, password } = req.body;
     try {
         // Find user by email
@@ -115,13 +115,21 @@ app.post('/login', requests, async (req, res) => {
         }
 
         // Check if password is correct
-        const isMatch = await bcrypt.compare(password, user.password);
+        // const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = user.password === password;
         if (!isMatch) {
             return res.status(401).json({
                 status: 401,
                 message: 'Invalid credentials'
             });
         }
+
+        // // Generate JWT token
+        // const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '1h' });
+
+        // // Set token in response header
+        // res.setHeader('Authorization', `Bearer ${token}`);
+
 
         res.status(200).json({
             status: 200,

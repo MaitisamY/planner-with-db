@@ -1,36 +1,34 @@
 import { useEffect, useState } from 'react'
 import validator from 'validator'
+import axios from 'axios'
 
 export default function Login() {
+
+    const [serverResponse, setServerResponse] = useState('');
 
     const [credentials, setCredentials] = useState({
         email: '',
         password: '',
-        errors: {
-            email: '',
-            password: '',
-        }
     });
 
-    const handleCredentials = (e, checkError) => {
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+    });
+
+    const handleCredentials = (e) => {
         const { name, value } = e.target;
-        if (checkError) {
-            setCredentials({
-                ...credentials,
-                [name]: value,
-                errors: {
-                    ...credentials.errors,
-                    [name]: validation(name, value),
-                }
-            })
-        }
         setCredentials({
             ...credentials,
             [name]: value,
-            errors: {
-                ...credentials.errors,
-                [name]: '',
-            }
+        })
+    }
+
+    const handleErrors = (e) => {
+        const { name, value } = e.target;
+        setErrors({
+            ...errors,
+            [name]: validation(name, value),
         })
     }
 
@@ -41,8 +39,7 @@ export default function Login() {
                     !validator.isEmail(value) ? 'Email is not valid' : ''
             case 'password':
                 return !value ? 'Password is required' :
-                    value < 6 ? 'Minimum length of password is 6' :
-                    value > 15 ? 'Maximum length of password is 15' : ''
+                    value < 6 && value > 15 ? 'Password must be between 6 and 15 characters' : ''
             default:
                 return ''
         }
@@ -51,47 +48,59 @@ export default function Login() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const { email, password } = credentials;
+
         if (!email || !password) {
-            setCredentials({
-                ...credentials,
-                errors: {
-                    ...credentials.errors,
-                    email: !email ? 'Email is required' : '',
-                    password: !password ? 'Password is required' : '',
-                }
+            setErrors({
+                ...errors,
+                email: !email ? 'Email is required' : '',
+                password: !password ? 'Password is required' : '',
             })
         } else if (!validator.isEmail(email)) {
-            setCredentials({
-                ...credentials,
-                errors: {
-                    ...credentials.errors,
-                    email: 'Email is not valid'
-                }
+            setErrors({
+                ...errors,
+                email: 'Email is not valid',
             })
-        } else if (password < 6) {
-            setCredentials({
-                ...credentials,
-                errors: {
-                    ...credentials.errors,
-                    password: 'Minimum length of password is 6'
-                }
-            })
-        } else if (password > 15) {
-            setCredentials({
-                ...credentials,
-                errors: {
-                    ...credentials.errors,
-                    password: 'Maximum length of password is 15'
-                }
+        } else if (password.length < 6 || password.length > 15) {
+            setErrors({
+                ...errors,
+                password: 'Password must be between 6 and 15 characters',
             })
         } else {
-            const loginData = {
-                email,
-                password
+            try {
+                const response = await axios.post('http://localhost:3002/api/login', {
+                    email,
+                    password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                    }
+                });
+                const data = response.data;
+                if (data.status === 200 || data.status === 201) {
+                    setServerResponse(data.message);
+                }
+                if (data.status === 401) {
+                    setServerResponse(data.message);
+                }
+                if (data.status === 500) {
+                    setServerResponse(data.message);
+                }
+                if (data.status === 409) {
+                    setServerResponse(data.message);
+                }
+                if (data.status === 404) {
+                    setServerResponse(data.message);
+                }
+            } catch (error) {
+                console.error(error);
+                // Handle error appropriately
+                setServerResponse('An error occurred while processing your request.');
             }
-            console.log('Task data:', signinData);
         }
-    }
+    };
+    
 
     return (
         <div>
@@ -103,11 +112,11 @@ export default function Login() {
                     id="email" 
                     placeholder="E.g. john@mail.com" 
                     value={credentials.email} 
-                    onChange={(e) => handleCredentials(e, false)}
-                    onMouseLeave={(e) => handleCredentials(e, true)}
-                    onMouseOut={(e) => handleCredentials(e, true)}
+                    onChange={handleCredentials}
+                    onMouseLeave={handleErrors}
+                    onMouseOut={handleErrors}
                 />
-                {credentials.errors.email && <h4>{credentials.errors.email}</h4>}
+                {errors.email && <h4>{errors.email}</h4>}
                 <label htmlFor="password">Password</label>
                 <input 
                     type="password" 
@@ -115,11 +124,13 @@ export default function Login() {
                     id="password" 
                     placeholder="Enter your password"
                     value={credentials.password}
-                    onChange={(e) => handleCredentials(e, false)} 
-                    onMouseLeave={(e) => handleCredentials(e, true)}
-                    onMouseOut={(e) => handleCredentials(e, true)}
+                    onChange={handleCredentials} 
+                    onMouseLeave={handleErrors}
+                    onMouseOut={handleErrors}
+                    autoComplete="off"
                 />
-                {credentials.errors.password && <h4>{credentials.errors.password}</h4>}
+                {errors.password && <h4>{errors.password}</h4>}
+                {serverResponse && <h4>{serverResponse}</h4>}
                 <button className="btn" type="submit">Login</button>
             </form>
         </div>
