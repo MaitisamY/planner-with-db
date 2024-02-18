@@ -121,15 +121,7 @@ export default function Welcome({ opener }) {
                     ) : textOrChecklist === 'checklist' ? (
                         <>
                             <form onSubmit={(e) => handleFormSubmit(e, 'checklist')}>
-                                <ul style={{ 
-                                    width: 'auto',
-                                    display: 'flex', 
-                                    alignItems: 'flex-start', 
-                                    justifyContent: 'center', 
-                                    flexDirection: 'column', 
-                                    gap: '20px',
-                                    listStyleType: 'none'
-                                }}>
+                                <ul>
                                     {toDo.type === 'checklist' && toDo.checklist.length > 0 ? ( // Check if checklist is not empty
                                         toDo.checklist.map((item, index) => (
                                             <li key={item.id}>
@@ -139,7 +131,7 @@ export default function Welcome({ opener }) {
                                                     id={item.id} 
                                                     value={item.item} 
                                                     onChange={(e) => handleChange(item.id, e.target.value, 'checklist')} 
-                                                    placeholder={`Checklist item ${index + 1}`}
+                                                    placeholder={`Enter checklist item ${index + 1}`}
                                                 />
                                                 {item.error && <h4>{item.error}</h4>}
                                                 {(index + 1) !== 1 &&  (

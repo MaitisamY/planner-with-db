@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { MdGridView, MdFormatListBulleted, MdEditNote, MdSupervisedUserCircle, MdNewReleases } from 'react-icons/md'
