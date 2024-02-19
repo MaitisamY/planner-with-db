@@ -78,7 +78,7 @@ export default function Login() {
             setFormDisabled(true);
             try {
                 const response = await SignInValidation(email, password);
-                setServerResponse(response.message);
+                setServerResponse(response.data);
             }
             catch (error) {
                 console.log(error);

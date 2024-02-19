@@ -1,5 +1,6 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { useSession, signOut } from 'next-auth/react'
 import { MdGridView, MdFormatListBulleted, MdEditNote, MdSupervisedUserCircle, MdNewReleases } from 'react-icons/md'
 import { BsFillHouseDoorFill, BsBookmarkX } from 'react-icons/bs'
 import { useToDoFunctions } from '@/app/functions/useToDoFunctions'
@@ -14,6 +15,8 @@ export default function Navbar({ handleFeature, dropdownStatus, close, handler, 
         views,
         handleViews,
     } = useToDoFunctions();
+
+    const { data: session, status } = useSession();
 
     return (
         <>
@@ -54,29 +57,41 @@ export default function Navbar({ handleFeature, dropdownStatus, close, handler, 
                         title="Account"
                         onClick={handler}
                     >
-                        <MdSupervisedUserCircle /> &nbsp; <i>Account</i>
+                        <MdSupervisedUserCircle /> &nbsp; 
+                        {
+                            status === 'authenticated' ? <i>{session.user.name}</i> : <i>Account</i>
+                        }
                     </button>
                     {
                         dropdownStatus &&
                         <div className="account-dropdown" ref={dropdownRef}>
-                            <div className="selection">
-                                <button
-                                    className={`selector ${isLogin ? 'active' : ''}`}
-                                    onClick={handleIsLogin}
-                                >
-                                    Login
-                                </button>
-                                <button
-                                    className={`selector ${!isLogin ? 'active' : ''}`}
-                                    onClick={handleIsLogin}
-                                >
-                                    Sign Up
-                                </button>
-                            </div>
                             {
-                                isLogin ? <Login /> : <Signup />
+                                status === 'authenticated' ?
+                                <>
+                                    <p>{session.user.email}</p>
+                                    <button onClick={() => signOut()}>Sign Out</button>
+                                </>
+                                :
+                                <>
+                                <div className="selection">
+                                    <button
+                                        className={`selector ${isLogin ? 'active' : ''}`}
+                                        onClick={handleIsLogin}
+                                    >
+                                        Login
+                                    </button>
+                                    <button
+                                        className={`selector ${!isLogin ? 'active' : ''}`}
+                                        onClick={handleIsLogin}
+                                    >
+                                        Sign Up
+                                    </button>
+                                </div>
+                                { isLogin ? <Login /> : <Signup /> }
+                                </>
                             }
                         </div>
+                        
                     }
                 </div>
             </div>

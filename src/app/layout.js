@@ -1,5 +1,6 @@
+import { getServerSession } from 'next-auth'
+import SessionProvider from '@/app/functions/SessionProvider'
 import '@/app/styles/globals.css'
-
 export const metadata = {
   title: 'PLANNER',
   description: `Planner is a simple daily tasks maintainer app built on Next.js framework, 
@@ -8,7 +9,8 @@ export const metadata = {
   author: 'Aitisam Yaseen',
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await getServerSession();
   return (
     <html lang="en">
       <head>
@@ -19,7 +21,11 @@ export default function RootLayout({ children }) {
         {/* <link rel="icon" type="image/icon" href="/planner-icon.png" sizes="any" /> */}
         <link rel="icon" type="image/icon" href="/planner-favicon.png" sizes="any" />
       </head>
-      <body suppressHydrationWarning={true}>{children}</body>
+      <body suppressHydrationWarning={true}>
+        <SessionProvider session={session}>
+        {children}
+        </SessionProvider>
+      </body>
     </html>
   )
 }

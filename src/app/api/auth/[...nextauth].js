@@ -4,7 +4,7 @@ import { SignInValidation } from '@/app/api/util/SignInValidation'
 import { SignUpValidation } from '@/app/api/util/SignUpValidation'
 import { createUser } from '@/app/api/util/CreateUser'
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     Providers.Credentials({
       async authorize(credentials) {
@@ -40,6 +40,7 @@ export default NextAuth({
   ],
   session: {
     jwt: true,
+    maxAge: null,
   },
   callbacks: {
     async jwt(token, user) {
@@ -53,4 +54,7 @@ export default NextAuth({
       return session;
     }
   },
-});
+};
+
+export const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

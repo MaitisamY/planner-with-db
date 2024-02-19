@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Image from 'next/image'
 import validator from 'validator'
 import { SignUpValidation } from '@/app/api/util/SignUpValidation'
 

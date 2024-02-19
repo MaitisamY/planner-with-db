@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-
 import Main from '@/app/Main'
 import { useToDoFunctions } from '@/app/functions/useToDoFunctions'
 import '@/app/styles/globals.css'
@@ -17,7 +16,7 @@ import {
 import { BsShare } from 'react-icons/bs'
 
 export default function Home() {
-    
+
     const {
       notifications,
       shareUrl,
